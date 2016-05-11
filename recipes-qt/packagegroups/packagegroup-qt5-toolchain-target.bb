@@ -87,8 +87,6 @@ RDEPENDS_${PN} += " \
     qtsvg-dev \
     qtsvg-mkspecs \
     qtsvg-plugins \
-    qtsystems-dev \
-    qtsystems-mkspecs \
     ${@base_contains('DISTRO_FEATURES', 'opengl', 'qtsystems-qmlplugins', '', d)} \
     qttools-dev \
     qttools-mkspecs \
@@ -108,6 +106,11 @@ RDEPENDS_${PN} += " \
     qtxmlpatterns-mkspecs \
     qttranslations-qtxmlpatterns \
 "
+
+# depend on gconf -> polkit -> consolekit -> x11
+#    qtsystems-dev \
+#    qtsystems-mkspecs \
+#
 
 RRECOMMENDS_${PN} += " \
     qtquickcontrols-qmlplugins \
