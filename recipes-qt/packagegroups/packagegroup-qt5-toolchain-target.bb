@@ -33,6 +33,9 @@ USE_X11 = " \
     qtx11extras-mkspecs \
 "
 
+# XXX: qt4 installs fonts to the same location, so disable it for now...
+# qtbase-fonts
+
 RDEPENDS_${PN} += " \
     packagegroup-core-standalone-sdk-target \
     libsqlite3-dev \
@@ -40,7 +43,6 @@ RDEPENDS_${PN} += " \
     ${@base_contains('DISTRO_FEATURES', 'opengl', 'qt3d-mkspecs', '', d)} \
     ${@base_contains('DISTRO_FEATURES', 'opengl', 'qt3d-qmlplugins', '', d)} \
     qtbase-dev \
-    qtbase-fonts \
     qtbase-mkspecs \
     qtbase-plugins \
     qtbase-staticdev \
