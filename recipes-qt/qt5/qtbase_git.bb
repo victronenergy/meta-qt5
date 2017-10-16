@@ -99,7 +99,7 @@ PACKAGECONFIG[optimize-size] = "-optimize-size"
 PACKAGECONFIG[ltcg] = "-ltcg"
 PACKAGECONFIG[sm] = "-sm,-no-sm"
 PACKAGECONFIG[tests] = "-make tests,-nomake tests"
-PACKAGECONFIG[examples] = "-make examples -compile-examples,-nomake examples"
+PACKAGECONFIG[examples] = "-make examples -compile-examples,-nomake examples -no-compile-examples"
 PACKAGECONFIG[tools] = "-make tools,-nomake tools"
 # only for completeness, configure will add libs even if you try to explicitly remove it
 PACKAGECONFIG[libs] = "-make libs"
