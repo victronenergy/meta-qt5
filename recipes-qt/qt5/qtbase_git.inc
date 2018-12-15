@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = " \
 # common for qtbase-native, qtbase-nativesdk and qtbase
 # Patches from https://github.com/meta-qt5/qtbase/commits/b5.11-shared
 # 5.11.meta-qt5-shared.12
+FILESEXTRAPATHS_append := ":${THISDIR}/qtbase:${FILESEXTRAPATHS_append}"
 SRC_URI += "\
     file://0001-Add-linux-oe-g-platform.patch \
     file://0002-cmake-Use-OE_QMAKE_PATH_EXTERNAL_HOST_BINS.patch \
