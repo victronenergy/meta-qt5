@@ -33,6 +33,7 @@ SRC_URI += "\
     file://0015-double-conversion-support-AARCH64EB-and-arm-BE.patch \
     file://0016-Disable-ltcg-for-host_build.patch \
     file://0017-Qt5GuiConfigExtras.cmake.in-cope-with-variable-path-.patch \
+    file://0001-configure-Don-t-bootstrap-qmake-when-external-hostbi.patch \
 "
 
 

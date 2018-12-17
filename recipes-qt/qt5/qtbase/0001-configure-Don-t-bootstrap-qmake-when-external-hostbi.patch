@@ -1,0 +1,99 @@
+From 5a09382e5fbb91decdd5524280bdd08d5ce8b9a0 Mon Sep 17 00:00:00 2001
+From: Jeroen Hofstee <jhofstee@victronenergy.com>
+Date: Mon, 17 Dec 2018 14:27:11 +0100
+Subject: [PATCH] configure: Don't bootstrap qmake when external-hostbindir is
+ set
+
+If external-hostbindir is set $CFG_HOST_QT_TOOLS_PATH/qmake is used
+instead of the bootstrapped one. The bootstrapped qmake was still
+being build though, even if external-hostbindir is set. This causes
+parts of qtbase to be compiled on a single core, which makes the build
+time longer then needed. So skip building the bootstrap make in this
+case and only create the Makefile. qmake for the target is then build
+as part of the normal make step. This reduced the build time from
+roughly 6 minutes to 3 and half minute one a server with many cores.
+
+without this patch:
+../temp/run.do_configure
+real    2m59.870s
+user    2m45.468s
+sys     0m18.360s
+
+../temp/run.do_compile
+real    3m7.650s
+user    91m16.092s
+sys     9m21.672s
+
+with this patch:
+
+real    0m13.490s
+user    0m9.360s
+sys     0m2.712s
+
+../temp/run.do_compile
+real    3m12.422s
+user    96m29.740s
+sys     9m45.268s
+
+Change-Id: Iad58c5216c91ba7f495d824c215ce1a81cb07fa7
+---
+ configure | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
+
+diff --git a/configure b/configure
+index ef7bad1..6208bb0 100755
+--- a/configure
++++ b/configure
+@@ -716,7 +716,11 @@ setBootstrapVariable()
+ }
+ 
+ # build qmake
+-    echo "Creating qmake..."
++    if [ -z "$CFG_HOST_QT_TOOLS_PATH" ]; then
++        echo "Creating qmake..."
++    else
++        echo "Creating qmake/Makefile..."
++    fi
+     mkdir -p "$outpath/qmake" || exit
+ 
+         in_mkfile=$relpath/qmake/Makefile.unix
+@@ -797,21 +801,23 @@ setBootstrapVariable()
+             fi
+         fi
+ 
+-    if [ "$OPT_VERBOSE" = yes ]; then
+-        # Show the output of make
+-        (cd "$outpath/qmake"; "$MAKE") || exit 2
+-    else
+-        # Hide the output of make
+-        # Use bash to print dots, if we have it, and stdout is a tty.
+-        if test -t 1 && $WHICH bash > /dev/null 2>/dev/null; then
+-            bash -c 'set -o pipefail
+-                cd "$0/qmake"; "$1" | while read line; do
+-                    builtin echo -n .
+-                done' "$outpath" "$MAKE" || exit 2
++    if [ -z "$CFG_HOST_QT_TOOLS_PATH" ]; then
++        if [ "$OPT_VERBOSE" = yes ]; then
++            # Show the output of make
++            (cd "$outpath/qmake"; "$MAKE") || exit 2
+         else
+-            (cd "$outpath/qmake"; "$MAKE" -s) || exit 2
++            # Hide the output of make
++            # Use bash to print dots, if we have it, and stdout is a tty.
++            if test -t 1 && $WHICH bash > /dev/null 2>/dev/null; then
++                bash -c 'set -o pipefail
++                    cd "$0/qmake"; "$1" | while read line; do
++                        builtin echo -n .
++                    done' "$outpath" "$MAKE" || exit 2
++            else
++                (cd "$outpath/qmake"; "$MAKE" -s) || exit 2
++            fi
++            echo "Done."
+         fi
+-        echo "Done."
+     fi
+ 
+ #-------------------------------------------------------------------------------
+-- 
+2.7.4
+
