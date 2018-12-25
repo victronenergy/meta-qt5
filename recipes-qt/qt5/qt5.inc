@@ -56,17 +56,24 @@ ALLOW_EMPTY_${PN} = "1"
 ALLOW_EMPTY_${PN}-plugins = "1"
 ALLOW_EMPTY_${PN}-qmlplugins = "1"
 
-RRECOMMENDS_${PN} = " \
-    ${PN}-plugins \
-    ${PN}-qmlplugins \
-    "
-RRECOMMENDS_${PN}_class-native = ""
-
-RRECOMMENDS_${PN}-dev = " \
-    ${PN} \
-    ${PN}-mkspecs \
-    ${PN}-qmldesigner \
-    "
+# extra -dbg packages
+FILES_${PN}-qmlplugins-dbg = " \
+    ${OE_QMAKE_PATH_QML}/*/.debug \
+    ${OE_QMAKE_PATH_QML}/*/*/.debug \
+    ${OE_QMAKE_PATH_QML}/*/*/*/.debug \
+    ${OE_QMAKE_PATH_QML}/*/*/*/*/.debug \
+    ${OE_QMAKE_PATH_IMPORTS}/*/.debug \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/.debug \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/*/.debug \
+"
+FILES_${PN}-tools-dbg = " \
+    ${OE_QMAKE_PATH_BINS}/.debug \
+"
+FILES_${PN}-plugins-dbg = " \
+    ${OE_QMAKE_PATH_PLUGINS}/*/.debug/* \
+    ${OE_QMAKE_PATH_PLUGINS}/*/*/.debug/* \
+    ${OE_QMAKE_PATH_PLUGINS}/*/*/*/.debug/* \
+"
 
 # extra packages
 FILES_${PN}-qmldesigner += " \
@@ -112,6 +119,16 @@ FILES_${PN}-qmlplugins = " \
     ${OE_QMAKE_PATH_QML}/*/*/*/*/*.js \
     ${OE_QMAKE_PATH_QML}/*/*/*/*/*.jsc \
     ${OE_QMAKE_PATH_QML}/*/*/*/*/*/*.png \
+    ${OE_QMAKE_PATH_IMPORTS}/*.qmltypes \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*${SOLIBSDEV} \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*.qmltypes \
+    ${OE_QMAKE_PATH_IMPORTS}/*/qmldir \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/*${SOLIBSDEV} \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/*.qmltypes \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/qmldir \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/*/*${SOLIBSDEV} \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/*/*.qmltypes \
+    ${OE_QMAKE_PATH_IMPORTS}/*/*/*/qmldir \
 "
 
 FILES_${PN}-tools = " \
