@@ -19,4 +19,6 @@ PACKAGECONFIG[bluez] = "-feature-bluez,-no-feature-bluez,bluez5"
 
 EXTRA_QMAKEVARS_CONFIGURE += "${PACKAGECONFIG_CONFARGS}"
 
-SRCREV = "13b15ab1b1ee2ad56d0d37b07d694fbfc22e97a3"
+QT_MODULE_BRANCH = "5.14"
+SRCREV = "b445ea4ff203fbcb5011adae0236dd028f11bc89"
+PV ?= "5.14.2+git${SRCPV}"
