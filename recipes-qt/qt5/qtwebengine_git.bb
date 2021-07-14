@@ -81,7 +81,7 @@ inherit qmake5
 inherit gettext
 inherit python3native
 inherit perlnative
-inherit distro_features_check
+inherit features_check
 
 # Static builds of QtWebEngine aren't supported.
 CONFLICT_DISTRO_FEATURES = "qt5-static"
